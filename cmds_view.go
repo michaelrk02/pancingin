@@ -12,10 +12,10 @@ func cmd_kapal_penggunaan() error {
     var qb strings.Builder
 
     qb.WriteString("SELECT KdKapal, Nama, COUNT(*) JmlHari FROM (\n")
-	qb.WriteString("    SELECT K.KdKapal, K.Nama, NMK.Tanggal, COUNT(*) AS JmlTerpakai\n")
-	qb.WriteString("    FROM KAPAL K\n")
-	qb.WriteString("    JOIN NELAYAN_MENGGUNAKAN_KAPAL NMK ON NMK.KdKapal = K.KdKapal\n")
-	qb.WriteString("    GROUP BY K.KdKapal, K.Nama, NMK.Tanggal\n")
+    qb.WriteString("    SELECT K.KdKapal, K.Nama, NMK.Tanggal, COUNT(*) AS JmlTerpakai\n")
+    qb.WriteString("    FROM KAPAL K\n")
+    qb.WriteString("    JOIN NELAYAN_MENGGUNAKAN_KAPAL NMK ON NMK.KdKapal = K.KdKapal\n")
+    qb.WriteString("    GROUP BY K.KdKapal, K.Nama, NMK.Tanggal\n")
     qb.WriteString(") TGLPENGGUNAAN GROUP BY KdKapal, Nama")
     reportSQLStatement(qb.String())
     data, err = db.Query(qb.String())
