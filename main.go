@@ -34,21 +34,47 @@ func main() {
     cmds["query"] = operation{desc: "jalankan perintah SQL", handler: cmd_query}
     cmds["exit"] = operation{desc: "keluar dari program", handler: cmd_exit}
 
-    // view commands
+    // "list" commands
+    cmds["list:nelayan"] = operation{desc: "tampilkan daftar nelayan", handler: cmd_list_nelayan}
+    cmds["list:kapal"] = operation{desc: "tampilkan daftar kapal beserta lokasinya di laut", handler: cmd_list_kapal}
+    cmds["list:laut"] = operation{desc: "tampilkan daftar laut", handler: cmd_list_laut}
+    cmds["list:petani"] = operation{desc: "tampilkan daftar petani tambak", handler: cmd_list_petani}
+    cmds["list:pabrik"] = operation{desc: "tampilkan daftar pabrik", handler: cmd_list_pabrik}
+    cmds["list:produk"] = operation{desc: "tampilkan daftar produk beserta ikan asalnya", handler: cmd_list_produk}
+    cmds["list:supplier"] = operation{desc: "tampilkan daftar supplier", handler: cmd_list_supplier}
+    cmds["list:pelanggan"] = operation{desc: "tampilkan daftar pelanggan", handler: cmd_list_pelanggan}
+
+    // "ikan" commands
+    cmds["ikan:dibudidayakan"] = operation{desc: "tampilkan daftar ikan yang dibudidayakan", handler: cmd_ikan_dibudidayakan}
+    cmds["ikan:di_laut"] = operation{desc: "tampilkan sebaran spesies ikan di laut", handler: cmd_ikan_diLaut}
+    cmds["ikan:jumlah_per_laut"] = operation{desc: "tampilkan sebaran jumlah spesies ikan per laut", handler: cmd_ikan_jumlahPerLaut}
+
+    // "kapal" commands
     cmds["kapal:penggunaan"] = operation{desc: "tampilkan jumlah penggunaan kapal", handler: cmd_kapal_penggunaan}
     cmds["kapal:overkapasitas"] = operation{desc: "tampilkan pada tanggal berapa suatu kapal over kapasitas", handler: cmd_kapal_overkapasitas}
-    cmds["pelanggan:supplier_terdekat"] = operation{desc: "tampilkan supplier terdekat dengan pelanggan", handler: cmd_pelanggan_supplierTerdekat}
-    cmds["pelanggan:telusur_produk"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok produk dari supplier yang dapat dibeli pelanggan", handler: cmd_pelanggan_telusurProduk}
-    cmds["supplier:pabrik_terdekat"] = operation{desc: "tampilkan supplier terdekat dengan pelanggan", handler: cmd_supplier_pabrikTerdekat}
-    cmds["supplier:telusur_produk"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok produk dari pabrik yang dapat dibeli supplier", handler: cmd_supplier_telusurProduk}
-    cmds["supplier:ranking"] = operation{desc: "tampilkan ranking supplier berdasarkan nilai seluruh stok produk yang disediakan", handler: cmd_supplier_ranking}
-    cmds["pabrik:tambak_terdekat"] = operation{desc: "tampilkan tambak terdekat dengan pabrik", handler: cmd_pabrik_tambakTerdekat}
-    cmds["pabrik:telusur_tambak"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok dewasa ikan dari tambak yang dapat dibeli pabrik", handler: cmd_pabrik_telusurTambak}
-    cmds["pabrik:ranking"] = operation{desc: "tampilkan ranking pabrik berdasarkan nilai seluruh stok produk yang dihasilkan", handler: cmd_pabrik_ranking}
-    cmds["petani:ranking"] = operation{desc: "tampilkan ranking petani tambak berdasarkan nilai seluruh stok dewasa ikan", handler: cmd_petani_ranking}
-    cmds["pabrik_petani:telusur_ikan"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan persediaan ikan dari nelayan yang dapat dibeli pabrik dan petani tambak", handler: cmd_pabrikPetani_telusurIkan}
-    cmds["ikan:dibudidayakan"] = operation{desc: "tampilkan daftar ikan yang dibudidayakan", handler: cmd_ikan_dibudidayakan}
-    cmds["nelayan:ranking"] = operation{desc: "tampilkan ranking nelayan berdasarkan nilai seluruh persediaan tangkapan ikan", handler: cmd_nelayan_ranking}
+    cmds["kapal:penggunaan_tanggal"] = operation{desc: "tampilkan daftar nelayan yang berlayar pada tanggal tertentu", handler: cmd_kapal_penggunaanTanggal}
+    cmds["kapal:digunakan_tanggal"] = operation{desc: "tampilkan daftar nelayan yang menggunakan kapal tertentu pada tanggal tertentu", handler: cmd_kapal_digunakanTanggal}
+
+    // "terdekat" commands
+    cmds["terdekat:supplier"] = operation{desc: "tampilkan supplier terdekat dengan pelanggan", handler: cmd_terdekat_supplier}
+    cmds["terdekat:pabrik"] = operation{desc: "tampilkan pabrik terdekat dengan supplier", handler: cmd_terdekat_pabrik}
+    cmds["terdekat:tambak"] = operation{desc: "tampilkan tambak terdekat dengan pabrik", handler: cmd_terdekat_tambak}
+
+    // "jelajah" commands
+    cmds["jelajah:ikan_tangkapan"] = operation{desc: "tampilkan daftar ikan beserta harga jualnya yang ditangkap nelayan", handler: cmd_jelajah_ikanTangkapan}
+    cmds["jelajah:ikan_tambak"] = operation{desc: "tampilkan daftar ikan beserta harga jualnya yang dibudidayakan petani tambak", handler: cmd_jelajah_ikanTambak}
+    cmds["jelajah:produk_pabrik"] = operation{desc: "tampilkan daftar produk beserta harga jualnya yang dihasilkan pabrik", handler: cmd_jelajah_produkPabrik}
+    cmds["jelajah:produk_supplier"] = operation{desc: "tampilkan daftar produk beserta harga jualnya yang disediakan supplier", handler: cmd_jelajah_produkSupplier}
+    cmds["jelajah:produk_supplier_termurah"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok produk dari supplier yang dapat dibeli pelanggan", handler: cmd_jelajah_produkSupplierTermurah}
+    cmds["jelajah:produk_pabrik_termurah"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok produk dari pabrik yang dapat dibeli supplier", handler: cmd_jelajah_produkPabrikTermurah}
+    cmds["jelajah:ikan_tambak_termurah"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan stok dewasa ikan dari tambak yang dapat dibeli pabrik", handler: cmd_jelajah_ikanTambakTermurah}
+    cmds["jelajah:ikan_tangkapan_termurah"] = operation{desc: "tampilkan harga (termurah sampai termahal) dan persediaan ikan dari nelayan yang dapat dibeli pabrik dan petani tambak", handler: cmd_jelajah_ikanTangkapanTermurah}
+
+    // "stats" commands
+    cmds["stats:rank_supplier"] = operation{desc: "tampilkan ranking supplier berdasarkan nilai seluruh stok produk yang disediakan", handler: cmd_stats_rankSupplier}
+    cmds["stats:rank_pabrik"] = operation{desc: "tampilkan ranking pabrik berdasarkan nilai seluruh stok produk yang dihasilkan", handler: cmd_stats_rankPabrik}
+    cmds["stats:rank_petani"] = operation{desc: "tampilkan ranking petani tambak berdasarkan nilai seluruh stok dewasa ikan", handler: cmd_stats_rankPetani}
+    cmds["stats:rank_nelayan"] = operation{desc: "tampilkan ranking nelayan berdasarkan nilai seluruh persediaan tangkapan ikan", handler: cmd_stats_rankNelayan}
 
     fmt.Printf("Selamat datang di interface PancingIN v1.0. Ketik `help` untuk melihat bantuan\n");
     for running {
