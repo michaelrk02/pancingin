@@ -1,0 +1,7 @@
+{
+    "dbhost": "localhost:1433",
+    "dbuser": "SA",
+    "dbpass": "<your_password_here>",
+    "dbname": "<your_database_name_here>"
+}
+

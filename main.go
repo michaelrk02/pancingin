@@ -2,8 +2,10 @@ package main
 
 import (
     "database/sql"
+    "encoding/json"
     "fmt"
     "net/url"
+    "os"
 
     _ "github.com/denisenkom/go-mssqldb"
 )
@@ -21,7 +23,23 @@ func main() {
     var err error
     var ok bool
 
-    db, err = sql.Open("sqlserver", fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&connection+timeout=15", url.QueryEscape(dbuser), url.QueryEscape(dbpass), dbhost, url.QueryEscape(dbname)))
+    var cfg DBConfig
+    func() {
+        var f *os.File
+        f, err = os.Open("config.json")
+        if err != nil {
+            panic(err)
+        }
+        defer f.Close()
+
+        dec := json.NewDecoder(f)
+        err = dec.Decode(&cfg)
+        if err != nil {
+            panic(err)
+        }
+    }()
+
+    db, err = sql.Open("sqlserver", fmt.Sprintf("sqlserver://%s:%s@%s?database=%s&connection+timeout=15", url.QueryEscape(cfg.DBUser), url.QueryEscape(cfg.DBPass), cfg.DBHost, url.QueryEscape(cfg.DBName)))
     if err != nil {
         panic(err)
     }
@@ -32,12 +50,15 @@ func main() {
     // main commands
     cmds["help"] = operation{desc: "tampilkan daftar perintah", handler: cmd_help}
     cmds["query"] = operation{desc: "jalankan perintah SQL", handler: cmd_query}
+    cmds["tables"] = operation{desc: "lihat daftar table", handler: cmd_tables}
+    cmds["views"] = operation{desc: "lihat daftar view", handler: cmd_views}
     cmds["exit"] = operation{desc: "keluar dari program", handler: cmd_exit}
 
     // "list" commands
     cmds["list:nelayan"] = operation{desc: "tampilkan daftar nelayan", handler: cmd_list_nelayan}
     cmds["list:kapal"] = operation{desc: "tampilkan daftar kapal beserta lokasinya di laut", handler: cmd_list_kapal}
     cmds["list:laut"] = operation{desc: "tampilkan daftar laut", handler: cmd_list_laut}
+    cmds["list:ikan"] = operation{desc: "tampilkan daftar ikan", handler: cmd_list_ikan}
     cmds["list:petani"] = operation{desc: "tampilkan daftar petani tambak", handler: cmd_list_petani}
     cmds["list:pabrik"] = operation{desc: "tampilkan daftar pabrik", handler: cmd_list_pabrik}
     cmds["list:produk"] = operation{desc: "tampilkan daftar produk beserta ikan asalnya", handler: cmd_list_produk}
@@ -75,6 +96,16 @@ func main() {
     cmds["stats:rank_pabrik"] = operation{desc: "tampilkan ranking pabrik berdasarkan nilai seluruh stok produk yang dihasilkan", handler: cmd_stats_rankPabrik}
     cmds["stats:rank_petani"] = operation{desc: "tampilkan ranking petani tambak berdasarkan nilai seluruh stok dewasa ikan", handler: cmd_stats_rankPetani}
     cmds["stats:rank_nelayan"] = operation{desc: "tampilkan ranking nelayan berdasarkan nilai seluruh persediaan tangkapan ikan", handler: cmd_stats_rankNelayan}
+
+    // "buku" commands
+    cmds["buku:belanja_pelanggan"] = operation{desc: "tampilkan total belanja produk dari supplier oleh pelanggan", handler: cmd_buku_belanjaPelanggan}
+    cmds["buku:belanja_supplier"] = operation{desc: "tampilkan total belanja produk dari pabrik oleh supplier", handler: cmd_buku_belanjaSupplier}
+    cmds["buku:belanja_pabrik"] = operation{desc: "tampilkan total belanja ikan dari nelayan oleh pabrik", handler: cmd_buku_belanjaPabrik}
+    cmds["buku:belanja_petani"] = operation{desc: "tampilkan total belanja ikan dari nelayan oleh petani tambak", handler: cmd_buku_belanjaPetani}
+    cmds["buku:pendapatan_nelayan"] = operation{desc: "tampilkan total pendapatan nelayan dalam penjualan ikan ke pabrik", handler: cmd_buku_pendapatanNelayan}
+    cmds["buku:pendapatan_petani"] = operation{desc: "tampilkan total pendapatan petani tambak dalam penjualan ikan ke pabrik", handler: cmd_buku_pendapatanPetani}
+    cmds["buku:pendapatan_pabrik"] = operation{desc: "tampilkan total pendapatan pabrik dalam penjualan produk ke supplier", handler: cmd_buku_pendapatanPabrik}
+    cmds["buku:pendapatan_supplier"] = operation{desc: "tampilkan total pendapatan supplier dalam penjualan produk ke pelanggan", handler: cmd_buku_pendapatanSupplier}
 
     fmt.Printf("Selamat datang di interface PancingIN v1.0. Ketik `help` untuk melihat bantuan\n");
     for running {

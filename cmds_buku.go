@@ -4,11 +4,11 @@ import (
     "database/sql"
 )
 
-func cmd_list_nelayan() error {
+func cmd_buku_belanjaPelanggan() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Nelayan")
+    data, err = db.Query("SELECT * FROM V_BUKU_BelanjaPelanggan")
     if err != nil {
         return err
     }
@@ -18,11 +18,11 @@ func cmd_list_nelayan() error {
     return err
 }
 
-func cmd_list_kapal() error {
+func cmd_buku_belanjaSupplier() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Kapal")
+    data, err = db.Query("SELECT * FROM V_BUKU_BelanjaSupplier")
     if err != nil {
         return err
     }
@@ -32,11 +32,11 @@ func cmd_list_kapal() error {
     return err
 }
 
-func cmd_list_laut() error {
+func cmd_buku_belanjaPabrik() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Laut")
+    data, err = db.Query("SELECT * FROM V_BUKU_BelanjaPabrik")
     if err != nil {
         return err
     }
@@ -46,11 +46,11 @@ func cmd_list_laut() error {
     return err
 }
 
-func cmd_list_ikan() error {
+func cmd_buku_belanjaPetani() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Ikan")
+    data, err = db.Query("SELECT * FROM V_BUKU_BelanjaPetani")
     if err != nil {
         return err
     }
@@ -60,11 +60,11 @@ func cmd_list_ikan() error {
     return err
 }
 
-func cmd_list_petani() error {
+func cmd_buku_pendapatanNelayan() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Petani")
+    data, err = db.Query("SELECT * FROM V_BUKU_PendapatanNelayan")
     if err != nil {
         return err
     }
@@ -74,11 +74,11 @@ func cmd_list_petani() error {
     return err
 }
 
-func cmd_list_pabrik() error {
+func cmd_buku_pendapatanPetani() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Pabrik")
+    data, err = db.Query("SELECT * FROM V_BUKU_PendapatanPetani")
     if err != nil {
         return err
     }
@@ -88,11 +88,11 @@ func cmd_list_pabrik() error {
     return err
 }
 
-func cmd_list_produk() error {
+func cmd_buku_pendapatanPabrik() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Produk")
+    data, err = db.Query("SELECT * FROM V_BUKU_PendapatanPabrik")
     if err != nil {
         return err
     }
@@ -102,25 +102,11 @@ func cmd_list_produk() error {
     return err
 }
 
-func cmd_list_supplier() error {
+func cmd_buku_pendapatanSupplier() error {
     var err error
     var data *sql.Rows
 
-    data, err = db.Query("SELECT * FROM V_LIST_Supplier")
-    if err != nil {
-        return err
-    }
-    displaySQLResult(data)
-    data.Close()
-
-    return err
-}
-
-func cmd_list_pelanggan() error {
-    var err error
-    var data *sql.Rows
-
-    data, err = db.Query("SELECT * FROM V_LIST_Pelanggan")
+    data, err = db.Query("SELECT * FROM V_BUKU_PendapatanSupplier")
     if err != nil {
         return err
     }

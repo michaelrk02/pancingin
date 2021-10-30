@@ -4,12 +4,12 @@ import (
     "database/sql"
 )
 
-// Anda dapat mengubah-ubah konfigurasi ini
-// Sesuaikan saja dengan keadaan server pada komputer anda
-var dbhost = "localhost:1433"
-var dbuser = "SA"
-var dbpass = "MsSQL-Admin"
-var dbname = "DBMSProject"
+type DBConfig struct {
+    DBHost string `json:"dbhost"`
+    DBUser string `json:"dbuser"`
+    DBPass string `json:"dbpass"`
+    DBName string `json:"dbname"`
+}
 
 var db *sql.DB
 

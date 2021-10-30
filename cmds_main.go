@@ -43,6 +43,34 @@ func cmd_query() error {
     return err
 }
 
+func cmd_tables() error {
+    var err error
+    var data *sql.Rows
+
+    data, err = db.Query("SELECT name FROM sys.tables")
+    if err != nil {
+        return err
+    }
+    displaySQLResult(data)
+    data.Close()
+
+    return err
+}
+
+func cmd_views() error {
+    var err error
+    var data *sql.Rows
+
+    data, err = db.Query("SELECT name FROM sys.views")
+    if err != nil {
+        return err
+    }
+    displaySQLResult(data)
+    data.Close()
+
+    return err
+}
+
 func cmd_exit() error {
     running = false
 

@@ -52,12 +52,6 @@ func input(typ inputType) string {
     return out.String()
 }
 
-func reportSQLStatement(s string) {
-    fmt.Printf("=== BEGIN SQL STATEMENT ===\n");
-    fmt.Printf("%s\n", s)
-    fmt.Printf("=== END SQL STATEMENT ===\n")
-}
-
 func displaySQLResult(data *sql.Rows) {
     var cols []string
     cols, _ = data.Columns()
