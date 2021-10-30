@@ -6,6 +6,7 @@ import (
     "fmt"
     "io"
     "os"
+    "runtime"
     "strings"
 )
 
@@ -39,6 +40,12 @@ func input(typ inputType) string {
 
         if typ == lineInput {
             if c == '\n' {
+                break
+            }
+            if c == '\r' {
+                if runtime.GOOS == "windows" {
+                    in.ReadByte()
+                }
                 break
             }
         }
